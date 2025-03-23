@@ -2,9 +2,16 @@ const express = require("express");
 const cors = require("cors");
 
 const app = express();
-app.use(cors());
 app.use(express.json());
 
+// Enable CORS and allow frontend URL
+app.use(
+  cors({
+    origin: "https://iad-assignment-nha4hv1jn-tahrim-bilals-projects.vercel.app", // Change to your deployed frontend URL
+    methods: "GET,POST,PUT,DELETE",
+    allowedHeaders: "Content-Type",
+  })
+);
 let projects = [
   { id: 1, name: "Project Alpha" },
   { id: 2, name: "Project Beta" },
