@@ -7,7 +7,7 @@ app.use(express.json());
 // Enable CORS and allow frontend URL
 app.use(
   cors({
-    origin: "https://iad-assignment-nha4hv1jn-tahrim-bilals-projects.vercel.app", // Change to your deployed frontend URL
+    origin: "https://iad-assignment.vercel.app", // Change to your deployed frontend URL
     methods: "GET,POST,PUT,DELETE",
     allowedHeaders: "Content-Type",
   })
