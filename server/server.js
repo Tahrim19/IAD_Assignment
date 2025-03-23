@@ -49,19 +49,18 @@ app.put("/api/projects/:id", (req, res) => {
     return res.status(400).json({ status: "error", message: "Project name must be at least 3 characters" });
   }
 
-  const exists = projects.some((p) => p.name.toLowerCase() === name.toLowerCase());
-  if (exists) {
-    return res.status(400).json({ status: "error", message: "Project name already exists" });
-  }
-
-  const project = projects.find((p) => p.id === parseInt(id));
-  if (!project) {
+  // Find project index
+  const projectIndex = projects.findIndex((p) => p.id === parseInt(id));
+  if (projectIndex === -1) {
     return res.status(404).json({ message: "Project not found" });
   }
 
-  project.name = name;
-  res.json(project);
+  // Update the project name
+  projects[projectIndex] = { ...projects[projectIndex], name };
+
+  res.json(projects[projectIndex]); // Send the updated project
 });
+
 
 // Delete project
 app.delete("/api/projects/:id", (req, res) => {

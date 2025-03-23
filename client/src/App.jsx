@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import "./app.css";  // Import CSS file
+import "./app.css"; // Import CSS file
 
-const API_URL = "http://localhost:5000/api/projects";
+const API_URL = "https://iad-assignment-tahrim19.onrender.com/api/projects";
 
 function App() {
   const [projects, setProjects] = useState([]);
@@ -31,8 +31,12 @@ function App() {
 
     try {
       if (editingProject) {
-        const res = await axios.put(`${API_URL}/${editingProject.id}`, { name: newProject });
-        setProjects(projects.map((p) => (p.id === editingProject.id ? res.data : p)));
+        const res = await axios.put(`${API_URL}/${editingProject.id}`, {
+          name: newProject,
+        });
+        setProjects(
+          projects.map((p) => (p.id === editingProject.id ? res.data : p))
+        );
         setEditingProject(null);
       } else {
         const res = await axios.post(API_URL, { name: newProject });
@@ -72,20 +76,31 @@ function App() {
         onChange={(e) => setNewProject(e.target.value)}
         placeholder="Enter project name"
       />
-      <button className={editingProject ? "update" : "add"} onClick={handleSubmit}>
+      <button
+        className={editingProject ? "update" : "add"}
+        onClick={handleSubmit}
+      >
         {editingProject ? "Update Project" : "Add Project"}
       </button>
       {error && <p className="error">{error}</p>}
 
-      <button className="refresh" onClick={fetchProjects}>Refresh Projects</button>
-
+      <button className="refresh" onClick={() => window.location.reload()}>
+        Refresh Projects
+      </button>
       <ul>
-        {projects.map((project) => (
-          <li key={project.id}>
+        {projects.map((project, index) => (
+          <li key={`${project.name}-${index}`}>
             {project.name}{" "}
             <div>
-              <button className="update" onClick={() => startEditing(project)}>Edit</button>
-              <button className="delete" onClick={() => deleteProject(project.id)}>Delete</button>
+              <button className="update" onClick={() => startEditing(project)}>
+                Edit
+              </button>
+              <button
+                className="delete"
+                onClick={() => deleteProject(project.id)}
+              >
+                Delete
+              </button>
             </div>
           </li>
         ))}
